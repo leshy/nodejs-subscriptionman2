@@ -1,7 +1,7 @@
 backbone mixin for advanced event subscriptions
 ===============================================
 
-collection of mixins to mix a subscription mixin you'd like.
+collection of mixins to mix a subscription mixin you'd like
 
 ### pluggable event matching systems (events can be strings, objects, or anything else)
 
@@ -20,5 +20,4 @@ collection of mixins to mix a subscription mixin you'd like.
 
 - support for parallel async calling
 - return values passed to the event triggering caller
-
 

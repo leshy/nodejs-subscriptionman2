@@ -1,19 +1,9 @@
 _ = require 'underscore'
 async = require 'async'
 Backbone = require 'backbone4000'
+Validator = require 'validator2-extras'; v = Validator.v
 
-SimplestMatcher = Backbone.Model.extend4000
-    match: (value,pattern) -> value is pattern
-
-exists = exports.exists = new Object()
-
-ObjectMatcher = Backbone.Model.extend4000
-    match: (value,pattern) ->
-        if pattern is exists then return true
-        not _.find pattern, (checkvalue,key) ->
-            if not value[key] then return true
-            if checkvalue isnt exists and value[key] isnt checkvalue then return true
-            false
+# core ------------------------------------------------------------
 
 Core = exports.Core = Backbone.Model.extend4000
     initialize: ->
@@ -33,12 +23,49 @@ Core = exports.Core = Backbone.Model.extend4000
             delete @subscriptions[name]
             @trigger 'unsubscribe', name
     
-    event: (values...) ->
-        value = _.first values
-        MatchedSubscriptions = _.filter _.values(@subscriptions), (subscription) =>
-            @match value, subscription.pattern
-            
-        _.map MatchedSubscriptions, (subscription) ->
-            subscription.callback.apply @, values
+    event: (value, data) ->
+        async.filter _.values(@subscriptions),
+            (subscription,callback) => @match value, subscription.pattern, (err,data) -> callback(not err)
+            (MatchedSubscriptions) ->
+                _.map MatchedSubscriptions,
+                    (subscription, callback) ->
+                        subscription.callback data
 
 
+# core mixins ------------------------------------------------------------
+
+AsyncCallbackReturnMixin = exports.AsyncCallbackReturnMixin = Validator.ValidatedModel.extend4000
+    superValidator: { subscribe: 'Function' }
+        
+    event: (value, data, callback) ->
+        async.filter _.values(@subscriptions),
+            (subscription,callback) =>
+                @match value, subscription.pattern, (err,data) -> if err then callback false else callback true
+            (err,MatchedSubscriptions) ->
+                async.map MatchedSubscriptions,
+                    (subscription, callback) ->
+                        helpers.forceCallback subscription.callback, data, callback
+                    (err,data) ->
+                        callback err,data
+                        
+
+
+# matchers ------------------------------------------------------------
+ 
+SimplestMatcher = exports.SimplestMatcher = Backbone.Model.extend4000
+    match: (value,pattern,callback) -> if value is pattern then callback null, true else callback true
+
+exists = exports.exists = new Object()
+
+ObjectMatcher = exports.ObjectMatcher = Backbone.Model.extend4000
+    match: (value,pattern,callback) ->
+        if pattern is exists then return callback true
+        not _.find pattern, (checkvalue,key) ->
+            if not value[key] then return callback true
+            if checkvalue isnt exists and value[key] isnt checkvalue then return callback true
+            callback false
+
+
+# sample subscriptionmen ------------------------------------------------------------
+
+Basic = exports.Basic = Core.extend4000 SimplestMatcher

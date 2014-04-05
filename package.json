@@ -11,6 +11,6 @@
     "underscore": "~1.6.0",
     "async": "~0.6.2"
   },
-  "author": "lesh",
+  "author": "lesh@sysphere.org",
   "license": "MIT"
 }
