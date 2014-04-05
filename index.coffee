@@ -2,6 +2,7 @@ _ = require 'underscore'
 async = require 'async'
 Backbone = require 'backbone4000'
 Validator = require 'validator2-extras'; v = Validator.v
+helpers = require 'helpers'
 
 # core ------------------------------------------------------------
 
@@ -34,25 +35,21 @@ Core = exports.Core = Backbone.Model.extend4000
 
 # core mixins ------------------------------------------------------------
 
-AsyncCallbackReturnMixin = exports.AsyncCallbackReturnMixin = Validator.ValidatedModel.extend4000
-    superValidator: { subscribe: 'Function' }
-        
-    event: (value, data, callback) ->
+asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.extend4000
+    eventAsync: (value, data, callback) ->
         async.filter _.values(@subscriptions),
-            (subscription,callback) =>
-                @match value, subscription.pattern, (err,data) -> if err then callback false else callback true
-            (err,MatchedSubscriptions) ->
-                async.map MatchedSubscriptions,
+            (subscription,callback) => @match value, subscription.pattern, (err,data) -> callback(not err)
+            (MatchedSubscriptions) ->
+
+                async.mapSeries MatchedSubscriptions,
                     (subscription, callback) ->
                         helpers.forceCallback subscription.callback, data, callback
-                    (err,data) ->
-                        callback err,data
-                        
+                    callback
 
 
 # matchers ------------------------------------------------------------
  
-SimplestMatcher = exports.SimplestMatcher = Backbone.Model.extend4000
+simplestMatcher = exports.simplestMatcher = Backbone.Model.extend4000
     match: (value,pattern,callback) -> if value is pattern then callback null, true else callback true
 
 exists = exports.exists = new Object()
@@ -68,4 +65,4 @@ ObjectMatcher = exports.ObjectMatcher = Backbone.Model.extend4000
 
 # sample subscriptionmen ------------------------------------------------------------
 
-Basic = exports.Basic = Core.extend4000 SimplestMatcher
+Basic = exports.Basic = Core.extend4000 simplestMatcher

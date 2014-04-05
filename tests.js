@@ -21,4 +21,42 @@
     });
   };
 
+  exports.asyncCallback = function(test) {
+    var sman, smanC;
+    smanC = s.Core.extend4000(s.asyncCallbackReturnMixin, s.simplestMatcher);
+    sman = new smanC();
+    sman.subscribe('test', function(data, callback) {
+      callback(null, {
+        bla: 3
+      });
+      return void 0;
+    });
+    sman.subscribe('test', function(data, callback) {
+      callback(null, {
+        bla: 8
+      });
+      return void 0;
+    });
+    sman.subscribe('somethingelse', function(data, callback) {
+      test.fail();
+      callback(null, {
+        bla: 4
+      });
+      return void 0;
+    });
+    return sman.eventAsync('test', {
+      some: 'data2'
+    }, function(err, data) {
+      test.deepEqual(data, [
+        {
+          bla: 3
+        }, {
+          bla: 8
+        }
+      ]);
+      test.equals(err, null);
+      return test.done();
+    });
+  };
+
 }).call(this);
