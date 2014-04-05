@@ -12,8 +12,6 @@ exports.basic = (test) ->
     sman.event 'test', {some: 'data'}
 
 
-
-
 exports.asyncCallback = (test) ->
     smanC = s.Core.extend4000 s.asyncCallbackReturnMixin, s.simplestMatcher
     sman = new smanC()
@@ -30,9 +28,6 @@ exports.asyncCallback = (test) ->
         test.fail()
         callback null, { bla: 4 }
         undefined
-
-                        
-#    sman.event 'test_fail', {some: 'otherdata'}
         
     sman.eventAsync 'test', {some: 'data2'}, (err,data) ->
         test.deepEqual data, [ { bla: 3} , { bla: 8 } ]
