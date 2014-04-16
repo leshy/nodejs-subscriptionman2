@@ -32,5 +32,7 @@ exports.asyncCallback = (test) ->
     sman.eventAsync 'test', {some: 'data2'}, (err,data) ->
         test.deepEqual data, [ { bla: 3} , { bla: 8 } ]
         test.equals err,null
-        test.done()
+        sman.eventAsync 'nosub', {some: 'data3'}, (err,data) -> 
+            test.done()
+
 

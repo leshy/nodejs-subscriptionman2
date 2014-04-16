@@ -60,9 +60,11 @@
           return callback(!err);
         });
       }, function(MatchedSubscriptions) {
+        console.log("MATCHED SUBS:", MatchedSubscriptions);
         return async.mapSeries(MatchedSubscriptions, function(subscription, callback) {
+          console.log("WORKING ON", subscription);
           return helpers.forceCallback(subscription.callback, data, callback);
-        }, callback);
+        }, helpers.cb(callback));
       });
     }
   });

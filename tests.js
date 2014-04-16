@@ -55,7 +55,11 @@
         }
       ]);
       test.equals(err, null);
-      return test.done();
+      return sman.eventAsync('nosub', {
+        some: 'data3'
+      }, function(err, data) {
+        return test.done();
+      });
     });
   };
 

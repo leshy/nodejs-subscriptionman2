@@ -40,11 +40,12 @@ asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.ext
         async.filter _.values(@subscriptions),
             (subscription,callback) => @match value, subscription.pattern, (err,data) -> callback(not err)
             (MatchedSubscriptions) ->
-
+                console.log "MATCHED SUBS:",MatchedSubscriptions
                 async.mapSeries MatchedSubscriptions,
                     (subscription, callback) ->
+                        console.log "WORKING ON",subscription
                         helpers.forceCallback subscription.callback, data, callback
-                    callback
+                    helpers.cb callback
 
 
 # matchers ------------------------------------------------------------
