@@ -60,9 +60,7 @@
           return callback(!err);
         });
       }, function(MatchedSubscriptions) {
-        console.log("MATCHED SUBS:", _this.attributes, MatchedSubscriptions);
         return async.mapSeries(MatchedSubscriptions, function(subscription, callback) {
-          console.log("WORKING ON", subscription);
           return helpers.forceCallback(subscription.callback, data, callback);
         }, helpers.cb(callback));
       });
