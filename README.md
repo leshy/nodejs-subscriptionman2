@@ -1,7 +1,10 @@
 backbone mixin for advanced event subscriptions
 ===============================================
 
-collection of mixins to mix a subscription mixin you'd like
+collection of mixins to mix a subscription mixin you'd like.
+
+look at tests.coffee for API documentation
+
 the idea is to specialize your subscription system in order to cut down on the execution of unnessesary code while still having great flexibility and fancy matching where you need it
 
 ### pluggable event matching systems (events can be strings, objects, or anything else)
@@ -22,7 +25,6 @@ the idea is to specialize your subscription system in order to cut down on the e
 - support for parallel async calling
 - return values passed to the event triggering caller
 - waterfall? - todo
-- look at tests.coffee for documentation
 
 
 ### todo
