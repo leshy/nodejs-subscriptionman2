@@ -32,7 +32,28 @@ exports.asyncCallback = (test) ->
     sman.eventAsync 'test', {some: 'data2'}, (err,data) ->
         test.deepEqual data, [ { bla: 3} , { bla: 8 } ]
         test.equals err,null
-        sman.eventAsync 'nosub', {some: 'data3'}, (err,data) -> 
+        sman.eventAsync 'nosub', {some: 'data3'}, (err,data) ->
+            test.equals err, null
+            test.deepEqual data, []
             test.done()
 
+exports.fancy = (test) ->
+    sman = new s.Fancy()
+    Validator = require 'validator2-extras'; v = Validator.v
 
+    sman.subscribe { x: v("Number").Length({maximum: 8}), y:"String" }, (data,callback) ->
+        callback null, 666
+
+    cnt = 0
+    
+    sman.eventAsync 'test', (err,data) ->
+        cnt++
+        test.equal err,null
+        test.deepEqual data, []
+    sman.eventAsync { x: 3, y: 'bla' }, (err,data) ->
+        cnt++
+        test.equal err,null
+        test.deepEqual data, [ 666 ]
+        
+    test.equal cnt, 2        
+    test.done()
