@@ -1,9 +1,9 @@
 s = require './index'
 
-exports.basic = (test) ->
-    sman = new s.Basic()
+exports.def = (test) ->
+    sman = new s.def()
 
-    sman.subscribe 'test', (data) ->
+    sman.subscribe 'test', (event,data) ->
         test.deepEqual data, { some: 'data' }
         test.done()
 
@@ -38,7 +38,7 @@ exports.asyncCallback = (test) ->
             test.done()
 
 exports.fancy = (test) ->
-    sman = new s.Fancy()
+    sman = new s.fancy()
     Validator = require 'validator2-extras'; v = Validator.v
 
     sman.subscribe { x: v("Number").Length({maximum: 8}), y:"String" }, (data,callback) ->

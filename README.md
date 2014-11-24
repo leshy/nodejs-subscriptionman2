@@ -29,4 +29,4 @@ the idea is to specialize your subscription system in order to cut down on the e
 
 ### todo
 
-support for different event structures, not just  [ string_name, some_data ] but tags, only data, and such, and maybe pluggable different matchers for different fields?
+support for different event structures, not just  [ string_name, some_data ] but tags, only data, and such, and maybe pluggable different matchers for different fields

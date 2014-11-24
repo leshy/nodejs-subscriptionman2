@@ -24,15 +24,13 @@ Core = exports.Core = Backbone.Model.extend4000
             delete @subscriptions[name]
             @trigger 'unsubscribe', name
     
-    event: (value, data) ->
-        if not data then data = value
+    event: (data...) ->
+        eventType = _.first data
         async.filter _.values(@subscriptions),
-            (subscription,callback) => @match value, subscription.pattern, (err,data) -> callback(not err)
+            (subscription,callback) => @match eventType, subscription.pattern, (err,data) -> callback(not err)
             (MatchedSubscriptions) ->
                 _.map MatchedSubscriptions,
-                    (subscription, callback) ->
-                        subscription.callback data
-
+                    (subscription, callback) -> subscription.callback.apply @, data
 
 # core mixins ------------------------------------------------------------
 
@@ -46,8 +44,6 @@ asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.ext
                     (subscription, callback) ->
                         helpers.forceCallback subscription.callback, data, callback
                     helpers.cb callback
-
-
 # matchers ------------------------------------------------------------
 
 # == matcher 
@@ -55,7 +51,7 @@ simplestMatcher = exports.simplestMatcher = Backbone.Model.extend4000
     match: (value,pattern,callback) -> if value is pattern then callback null, true else callback true
 
 # simple nonrecursive object matcher
-exists = exports.exists = new Object()
+exists = exports.exists = true
 objectMatcher = exports.objectMatcher = Backbone.Model.extend4000
     match: (value,pattern,callback) ->
         if pattern is exists then return callback true
@@ -69,6 +65,6 @@ Validator2Matcher = exports.Validator2Matcher = Backbone.Model.extend4000
     match: (value,pattern,callback) -> v(pattern).feed value, callback
 
 # sample subscriptionmen ------------------------------------------------------------
-
-Basic = exports.Basic = Core.extend4000 simplestMatcher
-Fancy = exports.Fancy = Core.extend4000 Validator2Matcher, asyncCallbackReturnMixin
+def = exports.def = Core.extend4000 simplestMatcher
+basic = exports.basic = Core.extend4000 objectMatcher
+fancy = exports.fancy = Core.extend4000 Validator2Matcher, asyncCallbackReturnMixin

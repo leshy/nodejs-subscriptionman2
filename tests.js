@@ -4,10 +4,10 @@
 
   s = require('./index');
 
-  exports.basic = function(test) {
+  exports.def = function(test) {
     var sman;
-    sman = new s.Basic();
-    sman.subscribe('test', function(data) {
+    sman = new s.def();
+    sman.subscribe('test', function(event, data) {
       test.deepEqual(data, {
         some: 'data'
       });
@@ -67,7 +67,7 @@
 
   exports.fancy = function(test) {
     var Validator, cnt, sman, v;
-    sman = new s.Fancy();
+    sman = new s.fancy();
     Validator = require('validator2-extras');
     v = Validator.v;
     sman.subscribe({
