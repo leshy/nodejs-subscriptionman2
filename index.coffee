@@ -29,8 +29,13 @@ Core = exports.Core = Backbone.Model.extend4000
         async.filter _.values(@subscriptions),
             (subscription,callback) => @match eventType, subscription.pattern, (err,data) -> callback(not err)
             (MatchedSubscriptions) ->
-                _.map MatchedSubscriptions,
-                    (subscription, callback) -> subscription.callback.apply @, data
+                next = ->
+                    if MatchedSubscriptions.length
+                        sub = MatchedSubscriptions.pop()
+                        sub.callback.apply @, data.concat(next)
+                next()
+#                _.map MatchedSubscriptions,
+#                    (subscription, callback) -> subscription.callback.apply @, data
 
 # core mixins ------------------------------------------------------------
 
@@ -52,13 +57,14 @@ simplestMatcher = exports.simplestMatcher = Backbone.Model.extend4000
 
 # simple nonrecursive object matcher
 exists = exports.exists = true
+
 objectMatcher = exports.objectMatcher = Backbone.Model.extend4000
     match: (value,pattern,callback) ->
-        if pattern is exists then return callback true
+        if pattern is exists then return callback undefined, true
         not _.find pattern, (checkvalue,key) ->
-            if not value[key] then return callback true
-            if checkvalue isnt exists and value[key] isnt checkvalue then return callback true
-            callback false
+            if not value[key] then return callback undefined, true
+            if checkvalue isnt exists and value[key] isnt checkvalue then return callback undefined, true
+            callback true
 
 # matcher based on validator2 
 Validator2Matcher = exports.Validator2Matcher = Backbone.Model.extend4000

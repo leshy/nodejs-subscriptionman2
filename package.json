@@ -9,7 +9,7 @@
   "dependencies": {
     "backbone4000": "0.0.1",
     "underscore": "~1.6.0",
-    "async": "~0.6.2"
+    "async": ">0.6.2"
   },
   "author": "lesh@sysphere.org",
   "license": "MIT"
