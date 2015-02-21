@@ -7,9 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "backbone4000": "0.0.1",
-    "underscore": "~1.6.0",
-    "async": ">0.6.2"
+      "backbone4000": "0.0.1",
+      "underscore": "~1.6.0",
+      "async": ">0.6.2",
+      "validator2": "git://github.com/leshy/nodejs-validator2",
+      "validator2-extras": "git://github.com/leshy/nodejs-validator2-extras.git"
   },
   "author": "lesh@sysphere.org",
   "license": "MIT"
