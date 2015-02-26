@@ -1,4 +1,4 @@
-{
+p{
   "name": "subscriptionman2",
   "version": "0.0.0",
   "description": "",
@@ -12,6 +12,10 @@
       "async": ">0.6.2",
       "validator2": "git://github.com/leshy/nodejs-validator2",
       "validator2-extras": "git://github.com/leshy/nodejs-validator2-extras.git"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leshy/nodejs-subscriptionman2"
   },
   "author": "lesh@sysphere.org",
   "license": "MIT"
