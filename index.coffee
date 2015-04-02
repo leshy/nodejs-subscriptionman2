@@ -68,7 +68,10 @@ objectMatcher = exports.objectMatcher = Backbone.Model.extend4000
 
 # matcher based on validator2 
 Validator2Matcher = exports.Validator2Matcher = Backbone.Model.extend4000
-    match: (value,pattern,callback) -> v(pattern).feed value, callback
+    match: (value,pattern,callback) -> pattern.feed value, callback
+    subscribe: (attr...) ->
+        attr[0] = v(attr[0]) # precompile the validator
+        Core::subscribe.apply @, attr
 
 # sample subscriptionmen ------------------------------------------------------------
 def = exports.def = Core.extend4000 simplestMatcher
