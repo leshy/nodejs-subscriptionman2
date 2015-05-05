@@ -19,11 +19,11 @@ Core = exports.Core = Backbone.Model.extend4000
         @subscriptions[name] = pattern: pattern, callback: callback
 
         @trigger 'subscribe',name
-        
+
         =>
             delete @subscriptions[name]
             @trigger 'unsubscribe', name
-    
+
     event: (data...) ->
         eventType = _.first data
         async.filter _.values(@subscriptions),
@@ -51,7 +51,7 @@ asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.ext
                     helpers.cb callback
 # matchers ------------------------------------------------------------
 
-# == matcher 
+# == matcher
 simplestMatcher = exports.simplestMatcher = Backbone.Model.extend4000
     match: (value,pattern,callback) -> if value is pattern then callback null, true else callback true
 
@@ -66,7 +66,7 @@ objectMatcher = exports.objectMatcher = Backbone.Model.extend4000
             if checkvalue isnt exists and value[key] isnt checkvalue then return callback undefined, true
             callback true
 
-# matcher based on validator2 
+# matcher based on validator2
 Validator2Matcher = exports.Validator2Matcher = Backbone.Model.extend4000
     match: (value,pattern,callback) -> pattern.feed value, callback
     subscribe: (attr...) ->
