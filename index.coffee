@@ -7,7 +7,7 @@ helpers = require 'helpers'
 # core ------------------------------------------------------------
 
 Core = exports.Core = Backbone.Model.extend4000
-    initialize: ->
+    initialize: -> 
         @counter = 0
         @subscriptions = {}
 
@@ -28,14 +28,16 @@ Core = exports.Core = Backbone.Model.extend4000
         eventType = _.first data
         async.filter _.values(@subscriptions),
             (subscription,callback) => @match eventType, subscription.pattern, (err,data) -> callback(not err)
-            (MatchedSubscriptions) ->
-                next = ->
-                    if MatchedSubscriptions.length
-                        sub = MatchedSubscriptions.pop()
-                        sub.callback.apply @, data.concat(next)
-                next()
-#                _.map MatchedSubscriptions,
-#                    (subscription, callback) -> subscription.callback.apply @, data
+            (MatchedSubscriptions) =>
+                if @matchAll
+                    _.map MatchedSubscriptions,
+                        (subscription, callback) -> subscription.callback.apply @, data
+                else
+                    next = ->
+                        if MatchedSubscriptions.length
+                            sub = MatchedSubscriptions.pop()
+                            sub.callback.apply @, data.concat(next)
+                    next()
 
 # core mixins ------------------------------------------------------------
 
