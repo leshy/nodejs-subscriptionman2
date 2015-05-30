@@ -7,7 +7,7 @@ helpers = require 'helpers'
 # core ------------------------------------------------------------
 
 Core = exports.Core = Backbone.Model.extend4000
-    initialize: -> 
+    initialize: ->
         @counter = 0
         @subscriptions = {}
 
@@ -38,6 +38,7 @@ Core = exports.Core = Backbone.Model.extend4000
                             sub = MatchedSubscriptions.pop()
                             sub.callback.apply @, data.concat(next)
                     next()
+        if data.length is 1 then _.first data else data
 
 # core mixins ------------------------------------------------------------
 

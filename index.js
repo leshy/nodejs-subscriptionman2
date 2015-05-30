@@ -44,7 +44,7 @@
       var data, eventType;
       data = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
       eventType = _.first(data);
-      return async.filter(_.values(this.subscriptions), (function(_this) {
+      async.filter(_.values(this.subscriptions), (function(_this) {
         return function(subscription, callback) {
           return _this.match(eventType, subscription.pattern, function(err, data) {
             return callback(!err);
@@ -69,6 +69,11 @@
           }
         };
       })(this));
+      if (data.length === 1) {
+        return _.first(data);
+      } else {
+        return data;
+      }
     }
   });
 
