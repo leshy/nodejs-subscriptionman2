@@ -20,6 +20,31 @@
       this.counter = 0;
       return this.subscriptions = {};
     },
+    subscribeWait: function(timeout, pattern, callback, callbackError, name) {
+      var errorTimeout, unsub, wrappedCallback;
+      wrappedCallback = function() {
+        var data;
+        data = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+        clearTimeout(errorTimeout);
+        return callback.apply(this, data);
+      };
+      unsub = this.subscribeOnce(pattern, wrappedCallback, name);
+      return errorTimeout = helpers.wait(timeout, function() {
+        unsub();
+        return helpers.cbc(callbackError, new Error('timeout'));
+      });
+    },
+    subscribeOnce: function(pattern, callback, name) {
+      var unsub, wrappedCallback;
+      unsub = void 0;
+      wrappedCallback = function() {
+        var data;
+        data = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+        unsub();
+        return callback.apply(this, data);
+      };
+      return unsub = this.subscribe(pattern, wrappedCallback, name);
+    },
     subscribe: function(pattern, callback, name) {
       if (name == null) {
         name = this.counter++;
