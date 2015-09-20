@@ -13,12 +13,12 @@ Core = exports.Core = Backbone.Model.extend4000
 
   subscribeWait: (timeout, pattern, callback, callbackError, name) ->
     wrappedCallback = (data...) ->
-      clearTimeout errorTimeout
+      cancelErrorTimeout()
       callback.apply @, data
 
     unsub = @subscribeOnce pattern, wrappedCallback, name
 
-    errorTimeout = helpers.wait timeout, ->
+    cancelErrorTimeout = helpers.wait timeout, ->
       unsub()
       helpers.cbc callbackError, new Error 'timeout'
 

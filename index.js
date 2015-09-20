@@ -21,15 +21,15 @@
       return this.subscriptions = {};
     },
     subscribeWait: function(timeout, pattern, callback, callbackError, name) {
-      var errorTimeout, unsub, wrappedCallback;
+      var cancelErrorTimeout, unsub, wrappedCallback;
       wrappedCallback = function() {
         var data;
         data = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-        clearTimeout(errorTimeout);
+        cancelErrorTimeout();
         return callback.apply(this, data);
       };
       unsub = this.subscribeOnce(pattern, wrappedCallback, name);
-      return errorTimeout = helpers.wait(timeout, function() {
+      return cancelErrorTimeout = helpers.wait(timeout, function() {
         unsub();
         return helpers.cbc(callbackError, new Error('timeout'));
       });
