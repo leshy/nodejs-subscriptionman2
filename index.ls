@@ -6,13 +6,13 @@ helpers = require 'helpers'
 
 # core ------------------------------------------------------------
 
-Core = exports.Core = Backbone.Model.extend4000
+Core = exports.Core = Backbone.Model.extend4000 do
   initialize: ->
     @counter = 0
     @subscriptions = {}
 
   subscribeWait: (timeout, pattern, callback, callbackError, name) ->
-    wrappedCallback = (data...) ->
+    wrappedCallback = (...data) ->
       cancelErrorTimeout()
       callback.apply @, data
 
@@ -24,7 +24,7 @@ Core = exports.Core = Backbone.Model.extend4000
 
   subscribeOnce: (pattern, callback, name) ->
     unsub = undefined
-    wrappedCallback = (data...) -> unsub(); callback.apply @, data
+    wrappedCallback = (...data) -> unsub(); callback.apply @, data
     unsub = @subscribe pattern, wrappedCallback, name
 
   subscribe: (pattern,callback,name=@counter++) ->
@@ -36,15 +36,15 @@ Core = exports.Core = Backbone.Model.extend4000
 
     @trigger 'subscribe',name
 
-    =>
+    ~>
       delete @subscriptions[name]
       @trigger 'unsubscribe', name
 
-  event: (data...) ->
+  event: (...data) ->
     eventType = _.first data
     async.filter _.values(@subscriptions),
-      (subscription,callback) => @match eventType, subscription.pattern, (err,data) -> callback(not err)
-      (MatchedSubscriptions) =>
+      (subscription,callback) ~> @match eventType, subscription.pattern, (err,data) -> callback(not err)
+      (MatchedSubscriptions) ~>
         if @matchAll
           _.map MatchedSubscriptions,
             (subscription, callback) -> subscription.callback.apply @, data
@@ -58,12 +58,13 @@ Core = exports.Core = Backbone.Model.extend4000
 
 # core mixins ------------------------------------------------------------
 
-asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.extend4000
+
+asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.extend4000 do
   eventAsync: (value, data, callback) ->
     if not callback and data.constructor is Function then callback = data; data = value
     async.filter _.values(@subscriptions),
-      (subscription,callback) => @match value, subscription.pattern, (err,data) -> callback(not err)
-      (MatchedSubscriptions) =>
+      (subscription,callback) ~> @match value, subscription.pattern, (err,data) -> callback(not err)
+      (MatchedSubscriptions) ~>
         async.mapSeries MatchedSubscriptions,
           (subscription, callback) ->
             helpers.forceCallback subscription.callback, data, callback
@@ -71,7 +72,7 @@ asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.ext
 # matchers ------------------------------------------------------------
 
 # == matcher
-simplestMatcher = exports.simplestMatcher = Backbone.Model.extend4000
+simplestMatcher = exports.simplestMatcher = exports.equalityMatcher = Backbone.Model.extend4000 do
   match: (value,pattern,callback) -> if value is pattern then callback null, true else callback true
 
 # simple nonrecursive object matcher
@@ -88,7 +89,7 @@ objectMatcher = exports.objectMatcher =
 # matcher based on validator2
 Validator2Matcher = exports.Validator2Matcher =
   match: (value,pattern,callback) -> pattern.feed value, callback
-  subscribe: (attr...) ->
+  subscribe: (...attr) ->
     attr[0] = v(attr[0]) # precompile the validator
     Core::subscribe.apply @, attr
 
@@ -96,3 +97,4 @@ Validator2Matcher = exports.Validator2Matcher =
 def = exports.def = Core.extend4000 simplestMatcher
 basic = exports.basic = Core.extend4000 objectMatcher
 fancy = exports.fancy = Core.extend4000 Validator2Matcher, asyncCallbackReturnMixin
+

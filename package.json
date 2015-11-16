@@ -1,22 +1,73 @@
 {
-  "name": "subscriptionman2",
-  "version": "0.0.0",
-  "description": "",
+  "_args": [
+    [
+      "subscriptionman2@git://github.com/leshy/nodejs-subscriptionman2.git",
+      "/home/lesh/coding/bitcoin/bomber"
+    ]
+  ],
+  "_from": "git://github.com/leshy/nodejs-subscriptionman2.git",
+  "_id": "subscriptionman2@0.0.0",
+  "_inCache": true,
+  "_location": "/subscriptionman2",
+  "_phantomChildren": {},
+  "_requested": {
+    "hosted": {
+      "directUrl": "https://raw.githubusercontent.com/leshy/nodejs-subscriptionman2/master/package.json",
+      "gitUrl": "git://github.com/leshy/nodejs-subscriptionman2.git",
+      "httpsUrl": "git+https://github.com/leshy/nodejs-subscriptionman2.git",
+      "shortcut": "github:leshy/nodejs-subscriptionman2",
+      "ssh": "git@github.com:leshy/nodejs-subscriptionman2.git",
+      "sshUrl": "git+ssh://git@github.com/leshy/nodejs-subscriptionman2.git",
+      "type": "github"
+    },
+    "name": "subscriptionman2",
+    "raw": "subscriptionman2@git://github.com/leshy/nodejs-subscriptionman2.git",
+    "rawSpec": "git://github.com/leshy/nodejs-subscriptionman2.git",
+    "scope": null,
+    "spec": "git://github.com/leshy/nodejs-subscriptionman2.git",
+    "type": "hosted"
+  },
+  "_requiredBy": [
+    "/",
+    "/collections",
+    "/logger2",
+    "/logger3"
+  ],
+  "_resolved": "git://github.com/leshy/nodejs-subscriptionman2.git#737a02b110be67d70bdecfa4dead0801de57effb",
+  "_shasum": "c3618b347238922f1d359263b948136c09a605b4",
+  "_shrinkwrap": null,
+  "_spec": "subscriptionman2@git://github.com/leshy/nodejs-subscriptionman2.git",
+  "_where": "/home/lesh/coding/bitcoin/bomber",
+  "author": {
+    "name": "lesh@sysphere.org"
+  },
+  "bugs": {
+    "url": "https://github.com/leshy/nodejs-subscriptionman2/issues"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "backbone4000": "git://github.com/leshy/backbone4000.git",
+    "helpers": "git://github.com/leshy/nodejs-helpers.git",
+    "underscore": "^1.8.3",
+    "validator2-extras": "git://github.com/leshy/nodejs-validator2-extras.git"
+  },
+  "description": "backbone mixin for advanced event subscriptions ===============================================",
+  "devDependencies": {},
+  "gitHead": "737a02b110be67d70bdecfa4dead0801de57effb",
+  "homepage": "https://github.com/leshy/nodejs-subscriptionman2#readme",
+  "installable": true,
+  "license": "MIT",
   "main": "index.js",
+  "name": "subscriptionman2",
+  "optionalDependencies": {},
+  "readme": "backbone mixin for advanced event subscriptions\n===============================================\n\ncollection of mixins to mix a subscription mixin you'd like.\n\nlook at tests.coffee for API documentation\n\nthe idea is to specialize your subscription system in order to cut down on the execution of unnessesary code while still having great flexibility and fancy matching where you need it\n\n### pluggable event matching systems (events can be strings, objects, or anything else)\n\n- events are anything?\n    - *SimplestMatcher* matching for equality\n\n- events are strings?\n    - *SimplestMatcher* simple string matching\n    - *StringMatcher* regex matching - todo\n\n- events are objects?\n    - *ObjectMatcher* checking for key existance or specific key-value pair, support for recursion into the object\n    - *Validator2Matcher* using advanced [validator2](https://github.com/leshy/nodejs-validator2/) object matching features - full boolean logic support, type matching, custom async matchers (db lookups, queries?), random matchers like min/max/length/email/regex etc\n\n### advanced subscription functions calling\n\n- support for parallel async calling\n- return values passed to the event triggering caller\n- waterfall? - todo\n\n\n### todo\n\nsupport for different event structures, not just  [ string_name, some_data ] but tags, only data, and such, and maybe pluggable different matchers for different fields",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leshy/nodejs-subscriptionman2.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-      "backbone4000": "git://github.com/leshy/backbone4000.git",
-      "helpers": "git://github.com/leshy/nodejs-helpers.git",
-      "underscore": "^1.8.3",
-      "async": "^0.9.0",
-      "validator2-extras": "git://github.com/leshy/nodejs-validator2-extras.git"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/leshy/nodejs-subscriptionman2"
-  },
-  "author": "lesh@sysphere.org",
-  "license": "MIT"
+  "version": "0.0.0"
 }
