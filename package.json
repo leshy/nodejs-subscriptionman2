@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "async": "^0.9.0",
-    "backbone4000": "git://github.com/leshy/backbone4000.git",
+    "backbone4000": "git://github.com/leshy/backbone4000.git#waveme",
     "helpers": "git://github.com/leshy/nodejs-helpers.git",
     "underscore": "^1.8.3",
     "validator2-extras": "git://github.com/leshy/nodejs-validator2-extras.git"
