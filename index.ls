@@ -21,6 +21,8 @@ Core = exports.Core = Backbone.Model.extend4000 do
     cancelErrorTimeout = helpers.wait timeout, ->
       unsub()
       helpers.cbc callbackError, new Error 'timeout'
+      
+    unsub
 
   subscribeOnce: (pattern, callback, name) ->
     unsub = undefined
