@@ -52,7 +52,9 @@
     "validator2-extras": "git://github.com/leshy/nodejs-validator2-extras.git"
   },
   "description": "backbone mixin for advanced event subscriptions ===============================================",
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^3.4.2"
+  },
   "gitHead": "737a02b110be67d70bdecfa4dead0801de57effb",
   "homepage": "https://github.com/leshy/nodejs-subscriptionman2#readme",
   "installable": true,

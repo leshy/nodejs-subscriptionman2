@@ -1,3 +1,4 @@
+# autocompile
 _ = require 'underscore'
 async = require 'async'
 Backbone = require 'backbone4000'
@@ -27,7 +28,7 @@ Core = exports.Core = Backbone.Model.extend4000 do
     wrappedCallback = (...data) -> unsub(); callback.apply @, data
     unsub = @subscribe pattern, wrappedCallback, name
 
-  subscribe: (pattern,callback,name=@counter++) ->
+  subscribe: (pattern, callback, name=@counter++ ) ->
     if not callback and pattern.constructor is Function
       callback = pattern
       pattern = true
@@ -58,7 +59,6 @@ Core = exports.Core = Backbone.Model.extend4000 do
 
 # core mixins ------------------------------------------------------------
 
-
 asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.extend4000 do
   eventAsync: (value, data, callback) ->
     if not callback and data.constructor is Function then callback = data; data = value
@@ -69,6 +69,7 @@ asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.ext
           (subscription, callback) ->
             helpers.forceCallback subscription.callback, data, callback
           helpers.cb callback
+          
 # matchers ------------------------------------------------------------
 
 # == matcher
