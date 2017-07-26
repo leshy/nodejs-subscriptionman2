@@ -73,7 +73,7 @@ asyncCallbackReturnMixin = exports.asyncCallbackReturnMixin = Backbone.Model.ext
 # matchers ------------------------------------------------------------
 
 # == matcher
-simplestMatcher = exports.simplestMatcher = exports.equalityMatcher = Backbone.Model.extend4000 do
+simplestMatcher = exports.simplestMatcher = exports.equalityMatcher = exports.simpleMatcher = do
   match: (value,pattern,callback) -> if value is pattern then callback null, true else callback true
 
 # simple nonrecursive object matcher
