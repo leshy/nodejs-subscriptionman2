@@ -45,11 +45,11 @@
     "url": "https://github.com/leshy/nodejs-subscriptionman2/issues"
   },
   "dependencies": {
-    "async": "^0.9.0",
-    "backbone4000": "git://github.com/leshy/backbone4000.git",
-    "helpers": "git://github.com/leshy/nodejs-helpers.git",
+    "async": "^2.6.0",
+    "backbone4000": "git+https://github.com/leshy/backbone4000.git",
+    "helpers": "git+https://github.com/leshy/nodejs-helpers.git",
     "underscore": "^1.8.3",
-    "validator2-extras": "git://github.com/leshy/nodejs-validator2-extras.git"
+    "validator2-extras": "git+https://github.com/leshy/nodejs-validator2-extras.git"
   },
   "description": "backbone mixin for advanced event subscriptions ===============================================",
   "devDependencies": {
