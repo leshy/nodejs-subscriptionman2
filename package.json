@@ -47,6 +47,7 @@
   "dependencies": {
     "async": "^2.6.0",
     "backbone4000": "git+https://github.com/leshy/backbone4000.git",
+    "bluebird": "^3.5.1",
     "helpers": "git+https://github.com/leshy/nodejs-helpers.git",
     "underscore": "^1.8.3",
     "validator2-extras": "git+https://github.com/leshy/nodejs-validator2-extras.git"

@@ -44,8 +44,9 @@ Core = exports.Core = Backbone.Model.extend4000 do
   event: (...data) ->
     eventType = _.first data
     async.filter _.values(@subscriptions),
-      (subscription,callback) ~> @match eventType, subscription.pattern, (err,data) -> callback(not err)
+      (subscription,callback) ~> @match eventType, subscription.pattern, (err, data) -> callback(subscription)
       (MatchedSubscriptions) ~>
+        if MatchedSubscriptions.constructor isnt Array then MatchedSubscriptions = [ MatchedSubscriptions ]
         if @matchAll
           _.map MatchedSubscriptions,
             (subscription, callback) -> subscription.callback.apply @, data
